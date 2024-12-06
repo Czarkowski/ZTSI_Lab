@@ -1,0 +1,514 @@
+<div class="content "><h1 id="generics-in-net">Typy ogólne w .NET</h1><div class="display-flex justify-content-space-between align-items-center flex-wrap-wrap page-metadata-container">
+										<div class="margin-right-xxs">
+											<ul class="metadata page-metadata" data-bi-name="page info" lang="pl-pl" dir="ltr"><li>Artykuł</li><li class="visibility-hidden-visual-diff"><time class="" data-article-date="" aria-label="Data przeglądu artykułu" datetime="2024-01-27T11:45:00.000Z" data-article-date-source="calculated">27.01.2024</time>
+															</li><li class="contributors-holder display-none-print">
+															<button aria-label="Wyświetl wszystkich współautorów" class="contributors-button link-button" data-bi-name="contributors" title="Wyświetl wszystkich współautorów">Współautorzy: 18</button>
+														</li></ul>
+										</div>
+<div id="user-feedback" class="margin-block-xxs display-none-print" data-hide-on-archived="">
+	<button id="user-feedback-button" data-test-id="conceptual-feedback-button" class="button button-sm button-clear button-primary" type="button" data-bi-name="user-feedback-button" data-user-feedback-button="">
+		<span class="icon" aria-hidden="true">
+			<span class="docon docon-like"></span>
+		</span>
+		<span>Opinia</span>
+	</button>
+</div></div><nav id="center-doc-outline" class="doc-outline display-none-print margin-bottom-sm" data-bi-name="intopic toc" aria-label="W tym artykule"><!----> 
+		<h2 id="ms--in-this-article" class="title is-6 margin-block-xs"><!---->W tym artykule<!----></h2>
+		<ol id="content-well-in-this-article-list" class="border-left padding-left-xxs">
+			<!---->
+					<li class="">
+						<a href="#defining-and-using-generics"><!---->Definiowanie i używanie typów ogólnych<!----></a>
+					</li>
+				<!---->
+					<li class="">
+						<a href="#advantages-and-disadvantages-of-generics"><!---->Zalety i wady typów ogólnych<!----></a>
+					</li>
+				<!---->
+					<li class="">
+						<a href="#class-library-and-language-support"><!---->Obsługa biblioteki klas i języka<!----></a>
+					</li>
+				<!---->
+					<li class="">
+						<a href="#nested-types-and-generics"><!---->Zagnieżdżone typy i typy ogólne<!----></a>
+					</li>
+				<!---->
+					<li class="expandable">
+						<a href="#related-topics"><!---->Tematy pokrewne<!----></a>
+					</li>
+				<!---->
+					<li class="expandable">
+						<a href="#reference"><!---->Tematy pomocy<!----></a>
+					</li>
+				<!---->
+		</ol>
+	 
+		<button type="button" aria-expanded="false" data-show-more="" class="link-button font-weight-semibold font-size-sm margin-top-xxs margin-left-xs" aria-controls="content-well-in-this-article-list" data-title="Pokaż jeszcze 2" data-bi-name="show-more-btn">
+			<span class="show-more-text "><!---->Pokaż jeszcze 2<!----></span>
+			
+		</button>
+	 <!----></nav><!-- <content> --><p>Typy ogólne umożliwiają dostosowanie metody, klasy, struktury lub interfejsu do dokładnego typu danych, na którym działa. Na przykład zamiast używać <a href="/pl-pl/dotnet/api/system.collections.hashtable" class="no-loc" data-linktype="absolute-path">Hashtable</a> klasy , która umożliwia używanie kluczy i wartości dowolnego typu, można użyć <a href="/pl-pl/dotnet/api/system.collections.generic.dictionary-2" class="no-loc" data-linktype="absolute-path">Dictionary&lt;TKey,TValue&gt;</a> klasy ogólnej i określić typy dozwolone dla klucza i wartości. Wśród zalet typów ogólnych są zwiększone możliwości ponownego używania kodu i bezpieczeństwo typów.</p>
+<div class="heading-wrapper" data-heading-level="h2"><a class="anchor-link docon docon-link" href="#defining-and-using-generics" aria-label="Sekcja o tytule: Definiowanie i używanie typów ogólnych"></a><h2 id="defining-and-using-generics" class="heading-anchor">Definiowanie i używanie typów ogólnych</h2></div>
+<p>Typy ogólne to klasy, struktury, interfejsy i metody, które mają symbole zastępcze (parametry typu) dla co najmniej jednego typu, które przechowują lub używają. Klasa kolekcji ogólnej może używać parametru typu jako symbolu zastępczego dla typu obiektów, które przechowuje; parametry typu są wyświetlane jako typy pól i typy parametrów jego metod. Metoda ogólna może używać parametru typu jako typu zwracanej wartości lub jako typu jednego z jego parametrów formalnych. Poniższy kod ilustruje prostą definicję klasy ogólnej.</p>
+<pre class="has-inner-focus" hidden=""><code class="lang-cpp" name="Conceptual.Generics.Overview#2">generic&lt;typename T&gt;
+public ref class Generics
+{
+public:
+    T Field;
+};
+</code></pre><div class="codeHeader" id="code-try-0" data-bi-name="code-header"><span class="language">C#</span>
+		<button type="button" class="action position-relative display-none-print" data-bi-name="copy">
+			<span class="icon margin-right-xxs" aria-hidden="true">
+				<span class="docon docon-edit-copy"></span>
+			</span>
+			<span>Kopiuj</span>
+			<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+				<span class="icon font-size-lg">
+					<span class="docon docon-check-mark"></span>
+				</span>
+			</div>
+		</button>
+	</div><pre class="has-inner-focus" role="group" aria-label="Kod przewijany w poziomie" tabindex="0"><code class="lang-csharp" name="Conceptual.Generics.Overview#2"><span><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Generic</span>&lt;<span class="hljs-title">T</span>&gt;
+{
+    <span class="hljs-keyword">public</span> T Field;
+}
+</span></code></pre><pre class="has-inner-focus" hidden=""><code class="lang-vb" name="Conceptual.Generics.Overview#2">Public Class Generic(Of T)
+    Public Field As T
+
+End Class
+</code></pre>
+<p>Podczas tworzenia wystąpienia klasy ogólnej należy określić rzeczywiste typy, które mają zastąpić parametry typu. Spowoduje to utworzenie nowej klasy ogólnej, określanej jako skonstruowana klasa ogólna, z wybranymi typami zastąpionymi wszędzie tam, gdzie pojawiają się parametry typu. Wynik jest bezpieczną klasą, która jest dostosowana do wybranego typu, jak pokazano w poniższym kodzie.</p>
+<pre class="has-inner-focus" hidden=""><code class="lang-cpp" name="Conceptual.Generics.Overview#3">static void Main()
+{
+    Generics&lt;String^&gt;^ g = gcnew Generics&lt;String^&gt;();
+    g-&gt;Field = "A string";
+    //...
+    Console::WriteLine("Generics.Field           = \"{0}\"", g-&gt;Field);
+    Console::WriteLine("Generics.Field.GetType() = {0}", g-&gt;Field-&gt;GetType()-&gt;FullName);
+}
+</code></pre><div class="codeHeader" id="code-try-1" data-bi-name="code-header"><span class="language">C#</span>
+		<button type="button" class="action position-relative display-none-print" data-bi-name="copy">
+			<span class="icon margin-right-xxs" aria-hidden="true">
+				<span class="docon docon-edit-copy"></span>
+			</span>
+			<span>Kopiuj</span>
+			<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+				<span class="icon font-size-lg">
+					<span class="docon docon-check-mark"></span>
+				</span>
+			</div>
+		</button>
+	</div><pre class="has-inner-focus" role="group" aria-label="Kod przewijany w poziomie" tabindex="0"><code class="lang-csharp" name="Conceptual.Generics.Overview#3"><span><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"></span>)</span>
+{
+    Generic&lt;<span class="hljs-built_in">string</span>&gt; g = <span class="hljs-keyword">new</span> Generic&lt;<span class="hljs-built_in">string</span>&gt;();
+    g.Field = <span class="hljs-string">"A string"</span>;
+    <span class="hljs-comment">//...</span>
+    Console.WriteLine(<span class="hljs-string">"Generic.Field           = \"{0}\""</span>, g.Field);
+    Console.WriteLine(<span class="hljs-string">"Generic.Field.GetType() = {0}"</span>, g.Field.GetType().FullName);
+}
+</span></code></pre><pre class="has-inner-focus" hidden=""><code class="lang-vb" name="Conceptual.Generics.Overview#3">Public Shared Sub Main()
+    Dim g As New Generic(Of String)
+    g.Field = "A string"
+    '...
+    Console.WriteLine("Generic.Field           = ""{0}""", g.Field)
+    Console.WriteLine("Generic.Field.GetType() = {0}", g.Field.GetType().FullName)
+End Sub
+</code></pre><div class="heading-wrapper" data-heading-level="h3"><a class="anchor-link docon docon-link" href="#generics-terminology" aria-label="Sekcja o tytule: Terminologia dotycząca typów ogólnych"></a><h3 id="generics-terminology" class="heading-anchor">Terminologia dotycząca typów ogólnych</h3></div>
+<p>Następujące terminy służą do omówienia typów ogólnych na platformie .NET:</p>
+<ul>
+<li><p><em>Definicja typu ogólnego</em> jest deklaracją klasy, struktury lub interfejsu, która działa jako szablon, z symbolami zastępczymi typów, które mogą zawierać lub używać. Na przykład <a href="/pl-pl/dotnet/api/system.collections.generic.dictionary-2" class="no-loc" data-linktype="absolute-path">System.Collections.Generic.Dictionary&lt;TKey,TValue&gt;</a> klasa może zawierać dwa typy: klucze i wartości. Ponieważ definicja typu ogólnego jest tylko szablonem, nie można tworzyć wystąpień klasy, struktury lub interfejsu, który jest definicją typu ogólnego.</p>
+</li>
+<li><p><em>Parametry typu ogólnego</em> lub <em>parametry typu</em> są symbolami zastępczymi w definicji typu ogólnego lub metody. Typ <a href="/pl-pl/dotnet/api/system.collections.generic.dictionary-2" class="no-loc" data-linktype="absolute-path">System.Collections.Generic.Dictionary&lt;TKey,TValue&gt;</a> ogólny ma dwa parametry typu i <code>TKey</code><code>TValue</code>, które reprezentują typy jego kluczy i wartości.</p>
+</li>
+<li><p><em>Skonstruowany typ ogólny</em> lub typ <em>skonstruowany</em> jest wynikiem określania typów dla parametrów typu ogólnego definicji typu.</p>
+</li>
+<li><p><em>Argument typu ogólnego</em> jest dowolnym typem, który jest zastępowany dla parametru typu ogólnego.</p>
+</li>
+<li><p>Ogólny <em>termin typ ogólny</em> obejmuje zarówno typy konstruowane, jak i definicje typów ogólnych.</p>
+</li>
+<li><p><em>Kowariancja</em> i <em>kontrawariancja</em> parametrów typu ogólnego umożliwiają używanie skonstruowanych typów ogólnych, których argumenty typu są bardziej pochodne (kowariancja) lub mniej pochodne (kontrawariancja) niż typ skonstruowany docelowy. Kowariancja i kontrawariancja są określane zbiorczo jako <em>wariancja</em>. Aby uzyskać więcej informacji, zobacz <a href="covariance-and-contravariance" data-linktype="relative-path">Covariance and Contravariance (Kowariancja i kontrawariancja</a>).</p>
+</li>
+<li><p><em>Ograniczenia</em> to limity nakładane na parametry typu ogólnego. Na przykład można ograniczyć parametr typu do typów, które implementują <a href="/pl-pl/dotnet/api/system.collections.generic.icomparer-1" class="no-loc" data-linktype="absolute-path">System.Collections.Generic.IComparer&lt;T&gt;</a> interfejs ogólny, aby upewnić się, że wystąpienia typu mogą być uporządkowane. Można również ograniczyć parametry typu do typów, które mają określoną klasę bazową, które mają konstruktor bez parametrów lub które są typami referencyjnymi lub typami wartości. Użytkownicy typu ogólnego nie mogą zastąpić argumentów typu, które nie spełniają ograniczeń.</p>
+</li>
+<li><p><em>Definicja metody ogólnej jest metodą</em> z dwoma listami parametrów: listą parametrów typu ogólnego i listą parametrów formalnych. Parametry typu mogą być wyświetlane jako typ zwracany lub jako typy parametrów formalnych, jak pokazano w poniższym kodzie.</p>
+</li>
+</ul>
+<pre class="has-inner-focus" hidden=""><code class="lang-cpp" name="Conceptual.Generics.Overview#4">generic&lt;typename T&gt;
+T Generic(T arg)
+{
+    T temp = arg;
+    //...
+    return temp;
+}
+</code></pre><div class="codeHeader" id="code-try-2" data-bi-name="code-header"><span class="language">C#</span>
+		<button type="button" class="action position-relative display-none-print" data-bi-name="copy">
+			<span class="icon margin-right-xxs" aria-hidden="true">
+				<span class="docon docon-edit-copy"></span>
+			</span>
+			<span>Kopiuj</span>
+			<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+				<span class="icon font-size-lg">
+					<span class="docon docon-check-mark"></span>
+				</span>
+			</div>
+		</button>
+	</div><pre class="has-inner-focus" role="group" aria-label="Kod przewijany w poziomie" tabindex="0"><code class="lang-csharp" name="Conceptual.Generics.Overview#4"><span>T Generic&lt;T&gt;(T arg)
+{
+    T temp = arg;
+    <span class="hljs-comment">//...</span>
+    <span class="hljs-keyword">return</span> temp;
+}
+</span></code></pre><pre class="has-inner-focus" hidden=""><code class="lang-vb" name="Conceptual.Generics.Overview#4">Function Generic(Of T)(ByVal arg As T) As T
+    Dim temp As T = arg
+    '...
+    Return temp
+End Function
+</code></pre>
+<p>Metody ogólne mogą pojawiać się w typach ogólnych lub niegenerycznych. Należy pamiętać, że metoda nie jest ogólna tylko dlatego, że należy do typu ogólnego, a nawet dlatego, że ma parametry formalne, których typy są ogólnymi parametrami otaczającego typu. Metoda jest ogólna tylko wtedy, gdy ma własną listę parametrów typu. W poniższym kodzie tylko metoda <code>G</code> jest ogólna.</p>
+<pre class="has-inner-focus" hidden=""><code class="lang-cpp" name="Conceptual.Generics.Overview#5">ref class A
+{
+    generic&lt;typename T&gt;
+    T G(T arg)
+    {
+        T temp = arg;
+        //...
+        return temp;
+    }
+};
+generic&lt;typename T&gt;
+ref class Generic
+{
+    T M(T arg)
+    {
+        T temp = arg;
+        //...
+        return temp;
+    }
+};
+</code></pre><div class="codeHeader" id="code-try-3" data-bi-name="code-header"><span class="language">C#</span>
+		<button type="button" class="action position-relative display-none-print" data-bi-name="copy">
+			<span class="icon margin-right-xxs" aria-hidden="true">
+				<span class="docon docon-edit-copy"></span>
+			</span>
+			<span>Kopiuj</span>
+			<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+				<span class="icon font-size-lg">
+					<span class="docon docon-check-mark"></span>
+				</span>
+			</div>
+		</button>
+	</div><pre class="has-inner-focus" role="group" aria-label="Kod przewijany w poziomie" tabindex="0"><code class="lang-csharp" name="Conceptual.Generics.Overview#5"><span><span class="hljs-keyword">class</span> <span class="hljs-title">A</span>
+{
+    T G&lt;T&gt;(T arg)
+    {
+        T temp = arg;
+        <span class="hljs-comment">//...</span>
+        <span class="hljs-keyword">return</span> temp;
+    }
+}
+<span class="hljs-keyword">class</span> <span class="hljs-title">Generic</span>&lt;<span class="hljs-title">T</span>&gt;
+{
+    <span class="hljs-function">T <span class="hljs-title">M</span>(<span class="hljs-params">T arg</span>)</span>
+    {
+        T temp = arg;
+        <span class="hljs-comment">//...</span>
+        <span class="hljs-keyword">return</span> temp;
+    }
+}
+</span></code></pre><pre class="has-inner-focus" hidden=""><code class="lang-vb" name="Conceptual.Generics.Overview#5">Class A
+    Function G(Of T)(ByVal arg As T) As T
+        Dim temp As T = arg
+        '...
+        Return temp
+    End Function
+End Class
+Class Generic(Of T)
+    Function M(ByVal arg As T) As T
+        Dim temp As T = arg
+        '...
+        Return temp
+    End Function
+End Class
+</code></pre><div class="heading-wrapper" data-heading-level="h2"><a class="anchor-link docon docon-link" href="#advantages-and-disadvantages-of-generics" aria-label="Sekcja o tytule: Zalety i wady typów ogólnych"></a><h2 id="advantages-and-disadvantages-of-generics" class="heading-anchor">Zalety i wady typów ogólnych</h2></div>
+<p>Korzystanie z kolekcji ogólnych i delegatów ma wiele zalet:</p>
+<ul>
+<li><p>Bezpieczeństwo typów. Typy ogólne przenoszą obciążenie bezpieczeństwa typów od użytkownika do kompilatora. Nie ma potrzeby pisania kodu do testowania poprawnego typu danych, ponieważ jest on wymuszany w czasie kompilacji. Potrzeba rzutowania typu i możliwości błędów w czasie wykonywania jest ograniczona.</p>
+</li>
+<li><p>Mniejsze użycie kodu i kodu jest łatwiejsze do ponownego użycia. Nie ma potrzeby dziedziczenia po typie podstawowym i zastępowaniu elementów członkowskich. Na przykład element <a href="/pl-pl/dotnet/api/system.collections.generic.linkedlist-1" class="no-loc" data-linktype="absolute-path">LinkedList&lt;T&gt;</a> jest gotowy do natychmiastowego użycia. Można na przykład utworzyć połączoną listę ciągów z następującą deklaracją zmiennej:</p>
+<pre class="has-inner-focus" hidden=""><code class="lang-cpp" name="HowToGeneric#24">LinkedList&lt;String^&gt;^ llist = gcnew LinkedList&lt;String^&gt;();
+</code></pre><div class="codeHeader" id="code-try-4" data-bi-name="code-header"><span class="language">C#</span>
+		<button type="button" class="action position-relative display-none-print" data-bi-name="copy">
+			<span class="icon margin-right-xxs" aria-hidden="true">
+				<span class="docon docon-edit-copy"></span>
+			</span>
+			<span>Kopiuj</span>
+			<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+				<span class="icon font-size-lg">
+					<span class="docon docon-check-mark"></span>
+				</span>
+			</div>
+		</button>
+	</div><pre class="has-inner-focus" role="group" aria-label="Kod przewijany w poziomie" tabindex="0"><code class="lang-csharp" name="HowToGeneric#24"><span>LinkedList&lt;<span class="hljs-built_in">string</span>&gt; llist = <span class="hljs-keyword">new</span> LinkedList&lt;<span class="hljs-built_in">string</span>&gt;();
+</span></code></pre><pre class="has-inner-focus" hidden=""><code class="lang-vb" name="HowToGeneric#24">Dim llist As New LinkedList(Of String)()
+</code></pre></li>
+<li><p>Lepsza wydajność. Typy kolekcji ogólnych zazwyczaj działają lepiej w przypadku przechowywania typów wartości i manipulowania nimi, ponieważ nie ma potrzeby tworzenia pól typów wartości.</p>
+</li>
+<li><p>Delegaty ogólne umożliwiają bezpieczne wywołania zwrotne typu bez konieczności tworzenia wielu klas delegatów. Na przykład <a href="/pl-pl/dotnet/api/system.predicate-1" class="no-loc" data-linktype="absolute-path">Predicate&lt;T&gt;</a> delegat ogólny pozwala utworzyć metodę, która implementuje własne kryteria wyszukiwania dla określonego typu i używać metody z metodami <a href="/pl-pl/dotnet/api/system.array" class="no-loc" data-linktype="absolute-path">Array</a> typu, takimi jak <a href="/pl-pl/dotnet/api/system.array.find" class="no-loc" data-linktype="absolute-path">Find</a>, <a href="/pl-pl/dotnet/api/system.array.findlast" class="no-loc" data-linktype="absolute-path">FindLast</a>i <a href="/pl-pl/dotnet/api/system.array.findall" class="no-loc" data-linktype="absolute-path">FindAll</a>.</p>
+</li>
+<li><p>Typy ogólne usprawniają dynamicznie generowany kod. W przypadku używania typów ogólnych z dynamicznie generowanym kodem nie trzeba generować typu. Zwiększa to liczbę scenariuszy, w których można używać lekkich metod dynamicznych zamiast generowania całych zestawów. Aby uzyskać więcej informacji, zobacz <a href="../../framework/reflection-and-codedom/how-to-define-and-execute-dynamic-methods" data-linktype="relative-path">How to: Define and Execute Dynamic Methods</a> and <a href="/pl-pl/dotnet/api/system.reflection.emit.dynamicmethod" class="no-loc" data-linktype="absolute-path">DynamicMethod</a>.</p>
+</li>
+</ul>
+<p>Poniżej przedstawiono pewne ograniczenia dotyczące typów ogólnych:</p>
+<ul>
+<li><p>Typy ogólne mogą pochodzić z większości klas bazowych, takich jak (i ograniczenia mogą służyć do wymagania, że parametry typu ogólnego pochodzą z klas bazowych, takich jak <a href="/pl-pl/dotnet/api/system.marshalbyrefobject" class="no-loc" data-linktype="absolute-path">MarshalByRefObject</a><a href="/pl-pl/dotnet/api/system.marshalbyrefobject" class="no-loc" data-linktype="absolute-path">MarshalByRefObject</a>). Jednak platforma .NET nie obsługuje typów ogólnych powiązanych kontekstowo. Typ ogólny może pochodzić z <a href="/pl-pl/dotnet/api/system.contextboundobject" class="no-loc" data-linktype="absolute-path">ContextBoundObject</a>klasy , ale próba utworzenia wystąpienia tego typu powoduje wystąpienie klasy <a href="/pl-pl/dotnet/api/system.typeloadexception" class="no-loc" data-linktype="absolute-path">TypeLoadException</a>.</p>
+</li>
+<li><p>Wyliczenia nie mogą mieć parametrów typu ogólnego. Wyliczenie może być ogólne tylko przypadkowo (na przykład dlatego, że jest zagnieżdżone w typie ogólnym zdefiniowanym przy użyciu Visual Basic, C# lub C++). Aby uzyskać więcej informacji, zobacz "Wyliczenia" w <a href="../base-types/common-type-system" data-linktype="relative-path">systemie typowych</a>.</p>
+</li>
+<li><p>Lekkie metody dynamiczne nie mogą być ogólne.</p>
+</li>
+<li><p>W Visual Basic, C# i C++, zagnieżdżony typ, który jest ujęty w typ ogólny, nie można utworzyć wystąpienia, chyba że typy zostały przypisane do parametrów typu wszystkich ujęć typów. Innym sposobem na powiedzenie jest to, że w odbiciu zagnieżdżony typ zdefiniowany przy użyciu tych języków obejmuje parametry typu wszystkich jego otaczającego typu. Umożliwia to używanie parametrów typu otaczającego typów w definicjach składowych typu zagnieżdżonego. Aby uzyskać więcej informacji, zobacz "Zagnieżdżone typy" w programie <a href="/pl-pl/dotnet/api/system.type.makegenerictype" class="no-loc" data-linktype="absolute-path">MakeGenericType</a>.</p>
+<div class="alert is-info">
+<p class="alert-title"><span class="docon docon-status-error-outline" aria-hidden="true"></span> Uwaga</p>
+<p>Zagnieżdżony typ zdefiniowany przez emitowanie kodu w zestawie dynamicznym lub przy użyciu <a href="../../framework/tools/ilasm-exe-il-assembler" data-linktype="relative-path">Ilasm.exe (asembler IL)</a> nie jest wymagany do uwzględnienia parametrów typu jego otaczającego typu; jednak jeśli nie zawiera ich, parametry typu nie znajdują się w zakresie w klasie zagnieżdżonej.</p>
+</div>
+<p>Aby uzyskać więcej informacji, zobacz "Zagnieżdżone typy" w programie <a href="/pl-pl/dotnet/api/system.type.makegenerictype" class="no-loc" data-linktype="absolute-path">MakeGenericType</a>.</p>
+</li>
+</ul>
+<div class="heading-wrapper" data-heading-level="h2"><a class="anchor-link docon docon-link" href="#class-library-and-language-support" aria-label="Sekcja o tytule: Obsługa biblioteki klas i języka"></a><h2 id="class-library-and-language-support" class="heading-anchor">Obsługa biblioteki klas i języka</h2></div>
+<p>Platforma .NET udostępnia wiele ogólnych klas kolekcji w następujących przestrzeniach nazw:</p>
+<ul>
+<li><p><a href="/pl-pl/dotnet/api/system.collections.generic" class="no-loc" data-linktype="absolute-path">System.Collections.Generic</a> Przestrzeń nazw zawiera większość typów kolekcji ogólnych udostępnianych przez platformę .NET, takich jak <a href="/pl-pl/dotnet/api/system.collections.generic.list-1" class="no-loc" data-linktype="absolute-path">List&lt;T&gt;</a> klasy ogólne i <a href="/pl-pl/dotnet/api/system.collections.generic.dictionary-2" class="no-loc" data-linktype="absolute-path">Dictionary&lt;TKey,TValue&gt;</a> .</p>
+</li>
+<li><p><a href="/pl-pl/dotnet/api/system.collections.objectmodel" class="no-loc" data-linktype="absolute-path">System.Collections.ObjectModel</a> Przestrzeń nazw zawiera dodatkowe ogólne typy kolekcji, takie jak <a href="/pl-pl/dotnet/api/system.collections.objectmodel.readonlycollection-1" class="no-loc" data-linktype="absolute-path">ReadOnlyCollection&lt;T&gt;</a> klasa ogólna, które są przydatne do uwidaczniania modeli obiektów użytkownikom klas.</p>
+</li>
+</ul>
+<p>Interfejsy ogólne do implementowania porównań sortowania i równości są udostępniane w <a href="/pl-pl/dotnet/api/system" class="no-loc" data-linktype="absolute-path">System</a> przestrzeni nazw wraz z ogólnymi typami delegatów dla procedur obsługi zdarzeń, konwersji i predykatów wyszukiwania.</p>
+<p>Obsługa typów ogólnych została dodana do <a href="/pl-pl/dotnet/api/system.reflection" class="no-loc" data-linktype="absolute-path">System.Reflection</a> przestrzeni nazw w celu badania typów ogólnych i metod ogólnych w celu <a href="/pl-pl/dotnet/api/system.reflection.emit" class="no-loc" data-linktype="absolute-path">System.Reflection.Emit</a> emitowania zestawów dynamicznych zawierających typy ogólne i metody oraz generowanie <a href="/pl-pl/dotnet/api/system.codedom" class="no-loc" data-linktype="absolute-path">System.CodeDom</a> grafów źródłowych zawierających typy ogólne.</p>
+<p>Środowisko uruchomieniowe języka wspólnego udostępnia nowe kody operacyjne i prefiksy do obsługi typów ogólnych w języku MSIL firmy Microsoft, w tym <a href="/pl-pl/dotnet/api/system.reflection.emit.opcodes.stelem" class="no-loc" data-linktype="absolute-path">Stelem</a>, , <a href="/pl-pl/dotnet/api/system.reflection.emit.opcodes.ldelem" class="no-loc" data-linktype="absolute-path">Ldelem</a><a href="/pl-pl/dotnet/api/system.reflection.emit.opcodes.unbox_any" class="no-loc" data-linktype="absolute-path">Unbox_Any</a>, <a href="/pl-pl/dotnet/api/system.reflection.emit.opcodes.constrained" class="no-loc" data-linktype="absolute-path">Constrained</a>i <a href="/pl-pl/dotnet/api/system.reflection.emit.opcodes.readonly" class="no-loc" data-linktype="absolute-path">Readonly</a>.</p>
+<p>Visual C++, C# i Visual Basic wszystkie zapewniają pełną obsługę definiowania i używania typów ogólnych. Aby uzyskać więcej informacji na temat obsługi języka, zobacz <a href="../../visual-basic/programming-guide/language-features/data-types/generic-types" data-linktype="relative-path">Typy ogólne w Visual Basic</a>, <a href="../../csharp/fundamentals/types/generics" data-linktype="relative-path">Wprowadzenie do typów ogólnych</a> i <a href="/pl-pl/cpp/windows/overview-of-generics-in-visual-cpp" data-linktype="absolute-path">Omówienie typów ogólnych w programie Visual C++</a>.</p>
+<div class="heading-wrapper" data-heading-level="h2"><a class="anchor-link docon docon-link" href="#nested-types-and-generics" aria-label="Sekcja o tytule: Zagnieżdżone typy i typy ogólne"></a><h2 id="nested-types-and-generics" class="heading-anchor">Zagnieżdżone typy i typy ogólne</h2></div>
+<p>Typ zagnieżdżony w typie ogólnym może zależeć od parametrów typu otaczającego typu ogólnego. Środowisko uruchomieniowe języka wspólnego uznaje za zagnieżdżone typy jako ogólne, nawet jeśli nie mają własnych parametrów typu ogólnego. Podczas tworzenia wystąpienia typu zagnieżdżonego należy określić argumenty typu dla wszystkich ujęć typów ogólnych.</p>
+<div class="heading-wrapper" data-heading-level="h2"><a class="anchor-link docon docon-link" href="#related-topics" aria-label="Sekcja o tytule: Tematy pokrewne"></a><h2 id="related-topics" class="heading-anchor">Tematy pokrewne</h2></div>
+<div class="buttons buttons-right margin-bottom-none margin-top-sm"><!----> <button class="button button-clear button-sm display-flex gap-xxs">
+		<span class="icon" aria-hidden="true">
+			<span class="docon docon-expand color-primary"></span>
+		</span>
+		<span><!---->Rozwiń tabelę<!----></span>
+	</button><!----></div><div class="has-inner-focus table-wrapper" tabindex="0" role="group" aria-label="Dane przewijane w poziomie"><table aria-label="Tabela 1" class="table table-sm margin-top-none">
+<thead>
+<tr>
+<th>Tytuł</th>
+<th>Opis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="collections" data-linktype="relative-path">Kolekcje ogólne na platformie .NET</a></td>
+<td>Opisuje ogólne klasy kolekcji i inne typy ogólne na platformie .NET.</td>
+</tr>
+<tr>
+<td><a href="delegates-for-manipulating-arrays-and-lists" data-linktype="relative-path">Delegaty ogólne do manipulowania tablicami i listami</a></td>
+<td>Opisuje delegatów ogólnych konwersji, predykatów wyszukiwania i akcji do wykonania na elementach tablicy lub kolekcji.</td>
+</tr>
+<tr>
+<td><a href="interfaces" data-linktype="relative-path">Interfejsy ogólne</a></td>
+<td>Opisuje interfejsy ogólne, które zapewniają typowe funkcje w różnych rodzinach typów ogólnych.</td>
+</tr>
+<tr>
+<td><a href="covariance-and-contravariance" data-linktype="relative-path">Kowariancja i kontrawariancja</a></td>
+<td>Opisuje kowariancję i kontrawariancję w parametrach typu ogólnego.</td>
+</tr>
+<tr>
+<td><a href="../collections/commonly-used-collection-types" data-linktype="relative-path">Często używane typy kolekcji</a></td>
+<td>Zawiera podsumowanie informacji na temat charakterystyk i scenariuszy użycia typów kolekcji na platformie .NET, w tym typów ogólnych.</td>
+</tr>
+<tr>
+<td><a href="../collections/when-to-use-generic-collections" data-linktype="relative-path">Kiedy należy używać kolekcji ogólnych</a></td>
+<td>Opisuje ogólne reguły określania, kiedy należy używać typów kolekcji ogólnych.</td>
+</tr>
+<tr>
+<td><a href="../../framework/reflection-and-codedom/how-to-define-a-generic-type-with-reflection-emit" data-linktype="relative-path">Instrukcje: Definiowanie typu ogólnego przy użyciu emisji odbicia</a></td>
+<td>Wyjaśnia sposób generowania zestawów dynamicznych, które obejmują typy ogólne i metody.</td>
+</tr>
+<tr>
+<td><a href="../../visual-basic/programming-guide/language-features/data-types/generic-types" data-linktype="relative-path">Typy ogólne w Visual Basic</a></td>
+<td>Opisuje funkcję ogólne dla użytkowników Visual Basic, w tym tematy z instrukcjami dotyczącymi używania i definiowania typów ogólnych.</td>
+</tr>
+<tr>
+<td><a href="../../csharp/fundamentals/types/generics" data-linktype="relative-path">Wprowadzenie do typów ogólnych</a></td>
+<td>Zawiera omówienie definiowania i używania typów ogólnych dla użytkowników języka C#.</td>
+</tr>
+<tr>
+<td><a href="/pl-pl/cpp/windows/overview-of-generics-in-visual-cpp" data-linktype="absolute-path">Omówienie typów ogólnych w języku Visual C++</a></td>
+<td>Opisuje funkcję ogólne dla użytkowników języka C++, w tym różnice między rodzajami ogólnymi i szablonami.</td>
+</tr>
+</tbody>
+</table></div>
+<div class="heading-wrapper" data-heading-level="h2"><a class="anchor-link docon docon-link" href="#reference" aria-label="Sekcja o tytule: Tematy pomocy"></a><h2 id="reference" class="heading-anchor">Tematy pomocy</h2></div>
+<p><a href="/pl-pl/dotnet/api/system.collections.generic" class="no-loc" data-linktype="absolute-path">System.Collections.Generic</a></p>
+<p><a href="/pl-pl/dotnet/api/system.collections.objectmodel" class="no-loc" data-linktype="absolute-path">System.Collections.ObjectModel</a></p>
+<p><a href="/pl-pl/dotnet/api/system.reflection.emit.opcodes" class="no-loc" data-linktype="absolute-path">System.Reflection.Emit.OpCodes</a></p>
+</div>
+
+<div class="content "><h1 id="generic-types-overview">Omówienie typów ogólnych</h1><div class="display-flex justify-content-space-between align-items-center flex-wrap-wrap page-metadata-container">
+										<div class="margin-right-xxs">
+											<ul class="metadata page-metadata" data-bi-name="page info" lang="pl-pl" dir="ltr"><li>Artykuł</li><li class="visibility-hidden-visual-diff"><time class="" data-article-date="" aria-label="Data przeglądu artykułu" datetime="2024-03-12T21:38:00.000Z" data-article-date-source="calculated">12.03.2024</time>
+															</li><li class="contributors-holder display-none-print">
+															<button aria-label="Wyświetl wszystkich współautorów" class="contributors-button link-button" data-bi-name="contributors" title="Wyświetl wszystkich współautorów">Współautorzy: 16</button>
+														</li></ul>
+										</div>
+<div id="user-feedback" class="margin-block-xxs display-none-print" data-hide-on-archived="">
+	<button id="user-feedback-button" data-test-id="conceptual-feedback-button" class="button button-sm button-clear button-primary" type="button" data-bi-name="user-feedback-button" data-user-feedback-button="">
+		<span class="icon" aria-hidden="true">
+			<span class="docon docon-like"></span>
+		</span>
+		<span>Opinia</span>
+	</button>
+</div></div><nav id="center-doc-outline" class="doc-outline is-hidden-desktop display-none-print margin-bottom-sm" data-bi-name="intopic toc" aria-label="W tym artykule" hidden="">
+											<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">W tym artykule</h2>
+										</nav><!-- <content> --><p>Deweloperzy używają typów ogólnych przez cały czas na platformie .NET, niezależnie od tego, czy niejawnie, czy jawnie. Kiedy używasz linQ na platformie .NET, czy kiedykolwiek zauważysz, że pracujesz z <a href="/pl-pl/dotnet/api/system.collections.generic.ienumerable-1" class="no-loc" data-linktype="absolute-path">IEnumerable&lt;T&gt;</a>? A jeśli kiedykolwiek zobaczysz przykład online "ogólnego repozytorium" do rozmowy z bazami danych przy użyciu platformy Entity Framework, czy zobaczysz, że większość metod zwraca <code>IQueryable&lt;T&gt;</code>? Być może zastanawiałeś się, co <strong></strong> T znajduje się w tych przykładach i dlaczego jest tam.</p>
+<p>Po raz pierwszy wprowadzona w programie .NET Framework 2.0 typy ogólne są zasadniczo "szablonem kodu", który umożliwia deweloperom definiowanie <a href="/pl-pl/previous-versions/dotnet/netframework-4.0/hbzz1a9a(v=vs.100)" data-linktype="absolute-path">bezpiecznych</a> struktur danych bez zatwierdzania rzeczywistego typu danych. Na przykład to kolekcja ogólna, <a href="/pl-pl/dotnet/api/system.collections.generic.list-1" class="no-loc" data-linktype="absolute-path">List&lt;T&gt;</a> która może być zadeklarowana i używana z dowolnym typem, takim jak <code>List&lt;int&gt;</code>, <code>List&lt;string&gt;</code>lub <code>List&lt;Person&gt;</code>.<a href="/pl-pl/dotnet/api/system.collections.generic" data-linktype="absolute-path"></a></p>
+<p>Aby zrozumieć, dlaczego typy ogólne są przydatne, przyjrzyjmy się konkretnej klasie przed dodaniem typów ogólnych i po dodaniu ich: <a href="/pl-pl/dotnet/api/system.collections.arraylist" class="no-loc" data-linktype="absolute-path">ArrayList</a>. W programie .NET Framework 1.0 <code>ArrayList</code> elementy były typu <a href="/pl-pl/dotnet/api/system.object" class="no-loc" data-linktype="absolute-path">Object</a>. Każdy element dodany do kolekcji został dyskretnie przekonwertowany na <code>Object</code>element . To samo miało miejsce podczas odczytywania elementów z listy. Ten proces jest znany jako <a href="../csharp/programming-guide/types/boxing-and-unboxing" data-linktype="relative-path">boks i rozpakowywanie</a> i ma wpływ na wydajność. Oprócz wydajności nie ma jednak możliwości określenia typu danych na liście w czasie kompilacji, co sprawia, że w przypadku niektórych kruchych kodu nie ma możliwości. Typy ogólne rozwiążą ten problem, definiując typ danych, które będzie zawierać każde wystąpienie listy. Na przykład można dodawać tylko liczby całkowite i <code>List&lt;int&gt;</code> dodawać tylko osoby do elementu <code>List&lt;Person&gt;</code>.</p>
+<p>Typy ogólne są również dostępne w czasie wykonywania. Środowisko uruchomieniowe wie, jakiego typu struktury danych używasz, i może przechowywać je w pamięci wydajniej.</p>
+<p>Poniższy przykład to mały program, który ilustruje wydajność znajomości typu struktury danych w czasie wykonywania:</p>
+<div class="codeHeader" id="code-try-0" data-bi-name="code-header"><span class="language">C#</span>
+		<button type="button" class="action position-relative display-none-print" data-bi-name="copy">
+			<span class="icon margin-right-xxs" aria-hidden="true">
+				<span class="docon docon-edit-copy"></span>
+			</span>
+			<span>Kopiuj</span>
+			<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+				<span class="icon font-size-lg">
+					<span class="docon docon-check-mark"></span>
+				</span>
+			</div>
+		</button>
+	</div><pre class="has-inner-focus" role="group" aria-label="Kod przewijany w poziomie" tabindex="0"><code class="lang-csharp"><span>  <span class="hljs-keyword">using</span> System;
+  <span class="hljs-keyword">using</span> System.Collections;
+  <span class="hljs-keyword">using</span> System.Collections.Generic;
+  <span class="hljs-keyword">using</span> System.Diagnostics;
+
+  <span class="hljs-keyword">namespace</span> <span class="hljs-title">GenericsExample</span> {
+    <span class="hljs-keyword">class</span> <span class="hljs-title">Program</span> {
+      <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Main</span>(<span class="hljs-params"><span class="hljs-built_in">string</span>[] args</span>)</span> {
+        <span class="hljs-comment">//generic list</span>
+        List&lt;<span class="hljs-built_in">int</span>&gt; ListGeneric = <span class="hljs-keyword">new</span> List&lt;<span class="hljs-built_in">int</span>&gt; { <span class="hljs-number">5</span>, <span class="hljs-number">9</span>, <span class="hljs-number">1</span>, <span class="hljs-number">4</span> };
+        <span class="hljs-comment">//non-generic list</span>
+        ArrayList ListNonGeneric = <span class="hljs-keyword">new</span> ArrayList { <span class="hljs-number">5</span>, <span class="hljs-number">9</span>, <span class="hljs-number">1</span>, <span class="hljs-number">4</span> };
+        <span class="hljs-comment">// timer for generic list sort</span>
+        Stopwatch s = Stopwatch.StartNew();
+        ListGeneric.Sort();
+        s.Stop();
+        Console.WriteLine(<span class="hljs-string">$"Generic Sort: <span class="hljs-subst">{ListGeneric}</span>  \n Time taken: <span class="hljs-subst">{s.Elapsed.TotalMilliseconds}</span>ms"</span>);
+
+        <span class="hljs-comment">//timer for non-generic list sort</span>
+        Stopwatch s2 = Stopwatch.StartNew();
+        ListNonGeneric.Sort();
+        s2.Stop();
+        Console.WriteLine(<span class="hljs-string">$"Non-Generic Sort: <span class="hljs-subst">{ListNonGeneric}</span>  \n Time taken: <span class="hljs-subst">{s2.Elapsed.TotalMilliseconds}</span>ms"</span>);
+        Console.ReadLine();
+      }
+    }
+  }
+</span></code></pre>
+<p>Ten program generuje dane wyjściowe podobne do następujących:</p>
+<div class="codeHeader" id="code-try-1" data-bi-name="code-header"><span class="language">Console</span>
+		<button type="button" class="action position-relative display-none-print" data-bi-name="copy">
+			<span class="icon margin-right-xxs" aria-hidden="true">
+				<span class="docon docon-edit-copy"></span>
+			</span>
+			<span>Kopiuj</span>
+			<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+				<span class="icon font-size-lg">
+					<span class="docon docon-check-mark"></span>
+				</span>
+			</div>
+		</button>
+	</div><pre class="has-inner-focus"><code class="lang-console"><span>Generic Sort: System.Collections.Generic.List`1[System.Int32]
+ Time taken: 0.0034ms
+Non-Generic Sort: System.Collections.ArrayList
+ Time taken: 0.2592ms
+</span></code></pre>
+<p>Pierwszą rzeczą, którą można zauważyć, jest to, że sortowanie listy ogólnej jest znacznie szybsze niż sortowanie listy nieogólne. Można również zauważyć, że typ listy ogólnej jest odrębny ([System.Int32]), podczas gdy typ listy nieogółowej jest uogólniony. Ponieważ środowisko uruchomieniowe wie, że ogólny <code>List&lt;int&gt;</code> jest typu <a href="/pl-pl/dotnet/api/system.int32" class="no-loc" data-linktype="absolute-path">Int32</a>, może przechowywać elementy listy w podstawowej tablicy całkowitej w pamięci, podczas gdy niegeneryczny <code>ArrayList</code> musi rzutować każdy element listy na obiekt. Jak pokazano w tym przykładzie, dodatkowe rzuty zajmują trochę czasu i spowalniają sortowanie listy.</p>
+<p>Dodatkową zaletą środowiska uruchomieniowego wiedząc o typie ogólnym jest lepsze środowisko debugowania. Podczas debugowania ogólnego w języku C#wiesz, jaki typ każdego elementu znajduje się w strukturze danych. Bez typów ogólnych nie byłoby pojęcia, jaki był typ każdego elementu.</p>
+<div class="heading-wrapper" data-heading-level="h2"><a class="anchor-link docon docon-link" href="#see-also" aria-label="Sekcja o tytule: Zobacz też"></a><h2 id="see-also" class="heading-anchor">Zobacz też</h2></div>
+<ul>
+<li><a href="../csharp/fundamentals/types/generics" data-linktype="relative-path">Przewodnik programowania w języku C# — typy ogólne</a></li>
+</ul>
+</div>
+
+<div class="content "><h1 id="generic-collections-in-net">Kolekcje ogólne na platformie .NET</h1><div class="display-flex justify-content-space-between align-items-center flex-wrap-wrap page-metadata-container">
+										<div class="margin-right-xxs">
+											<ul class="metadata page-metadata" data-bi-name="page info" lang="pl-pl" dir="ltr"><li>Artykuł</li><li class="visibility-hidden-visual-diff"><time class="" data-article-date="" aria-label="Data przeglądu artykułu" datetime="2023-10-04T11:51:00.000Z" data-article-date-source="calculated">04.10.2023</time>
+															</li><li class="contributors-holder display-none-print">
+															<button aria-label="Wyświetl wszystkich współautorów" class="contributors-button link-button" data-bi-name="contributors" title="Wyświetl wszystkich współautorów">Współautorzy: 15</button>
+														</li></ul>
+										</div>
+<div id="user-feedback" class="margin-block-xxs display-none-print" data-hide-on-archived="">
+	<button id="user-feedback-button" data-test-id="conceptual-feedback-button" class="button button-sm button-clear button-primary" type="button" data-bi-name="user-feedback-button" data-user-feedback-button="">
+		<span class="icon" aria-hidden="true">
+			<span class="docon docon-like"></span>
+		</span>
+		<span>Opinia</span>
+	</button>
+</div></div><nav id="center-doc-outline" class="doc-outline display-none-print margin-bottom-sm" data-bi-name="intopic toc" aria-label="W tym artykule"><!---->
+		<h2 id="ms--in-this-article" class="title is-6 margin-block-xs"><!---->W tym artykule<!----></h2>
+		<ol id="content-well-in-this-article-list" class="border-left padding-left-xxs">
+			<!---->
+					<li class="">
+						<a href="#systemcollectionsgeneric"><!---->System.Collections.Generic<!----></a>
+					</li>
+				<!---->
+					<li class="">
+						<a href="#systemcollectionsobjectmodel"><!---->System.Collections.ObjectModel<!----></a>
+					</li>
+				<!---->
+					<li class="">
+						<a href="#other-generic-types"><!---->Inne typy ogólne<!----></a>
+					</li>
+				<!---->
+					<li class="">
+						<a href="#see-also"><!---->Zobacz też<!----></a>
+					</li>
+				<!---->
+		</ol>
+	<!----></nav><!-- <content> --><p>Biblioteka klas platformy .NET udostępnia wiele ogólnych klas kolekcji w <a href="/pl-pl/dotnet/api/system.collections.generic" class="no-loc" data-linktype="absolute-path">System.Collections.Generic</a> przestrzeniach nazw i <a href="/pl-pl/dotnet/api/system.collections.objectmodel" class="no-loc" data-linktype="absolute-path">System.Collections.ObjectModel</a> . Aby uzyskać bardziej szczegółowe informacje o tych klasach, zobacz <a href="../collections/commonly-used-collection-types" data-linktype="relative-path">Często używane typy</a> kolekcji.</p>
+<div class="heading-wrapper" data-heading-level="h2"><a class="anchor-link docon docon-link" href="#systemcollectionsgeneric" aria-label="Sekcja o tytule: System.Collections.Generic"></a><h2 id="systemcollectionsgeneric" class="heading-anchor">System.Collections.Generic</h2></div>
+<p>Wiele typów kolekcji ogólnych jest bezpośrednimi analogiami typów niegenerycznych. <a href="/pl-pl/dotnet/api/system.collections.generic.dictionary-2" class="no-loc" data-linktype="absolute-path">Dictionary&lt;TKey,TValue&gt;</a> jest ogólną wersją programu <a href="/pl-pl/dotnet/api/system.collections.hashtable" class="no-loc" data-linktype="absolute-path">Hashtable</a>; używa struktury <a href="/pl-pl/dotnet/api/system.collections.generic.keyvaluepair-2" class="no-loc" data-linktype="absolute-path">KeyValuePair&lt;TKey,TValue&gt;</a> ogólnej dla wyliczenia zamiast <a href="/pl-pl/dotnet/api/system.collections.dictionaryentry" class="no-loc" data-linktype="absolute-path">DictionaryEntry</a>.</p>
+<p><a href="/pl-pl/dotnet/api/system.collections.generic.list-1" class="no-loc" data-linktype="absolute-path">List&lt;T&gt;</a> jest ogólną wersją programu <a href="/pl-pl/dotnet/api/system.collections.arraylist" class="no-loc" data-linktype="absolute-path">ArrayList</a>. Istnieją klasy ogólne <a href="/pl-pl/dotnet/api/system.collections.generic.queue-1" class="no-loc" data-linktype="absolute-path">Queue&lt;T&gt;</a> i <a href="/pl-pl/dotnet/api/system.collections.generic.stack-1" class="no-loc" data-linktype="absolute-path">Stack&lt;T&gt;</a> , które odpowiadają niegenerycznych wersji.</p>
+<p>Istnieją ogólne i niegeneryczne wersje programu <a href="/pl-pl/dotnet/api/system.collections.generic.sortedlist-2" class="no-loc" data-linktype="absolute-path">SortedList&lt;TKey,TValue&gt;</a>. Obie wersje są hybrydami słownika i listy. Klasa <a href="/pl-pl/dotnet/api/system.collections.generic.sorteddictionary-2" class="no-loc" data-linktype="absolute-path">SortedDictionary&lt;TKey,TValue&gt;</a> ogólna jest czystym słownikiem i nie ma niegenericznego odpowiednika.</p>
+<p>Klasa <a href="/pl-pl/dotnet/api/system.collections.generic.linkedlist-1" class="no-loc" data-linktype="absolute-path">LinkedList&lt;T&gt;</a> ogólna jest prawdziwą połączoną listą. Nie ma on niegenericznego odpowiednika.</p>
+<div class="heading-wrapper" data-heading-level="h2"><a class="anchor-link docon docon-link" href="#systemcollectionsobjectmodel" aria-label="Sekcja o tytule: System.Collections.ObjectModel"></a><h2 id="systemcollectionsobjectmodel" class="heading-anchor">System.Collections.ObjectModel</h2></div>
+<p>Klasa <a href="/pl-pl/dotnet/api/system.collections.objectmodel.collection-1" class="no-loc" data-linktype="absolute-path">Collection&lt;T&gt;</a> ogólna udostępnia klasę bazową do wyprowadzania własnych typów kolekcji ogólnych. Klasa <a href="/pl-pl/dotnet/api/system.collections.objectmodel.readonlycollection-1" class="no-loc" data-linktype="absolute-path">ReadOnlyCollection&lt;T&gt;</a> zapewnia łatwy sposób tworzenia kolekcji tylko do odczytu z dowolnego typu, który implementuje <a href="/pl-pl/dotnet/api/system.collections.generic.ilist-1" class="no-loc" data-linktype="absolute-path">IList&lt;T&gt;</a> interfejs ogólny. Klasa <a href="/pl-pl/dotnet/api/system.collections.objectmodel.keyedcollection-2" class="no-loc" data-linktype="absolute-path">KeyedCollection&lt;TKey,TItem&gt;</a> ogólna umożliwia przechowywanie obiektów zawierających własne klucze.</p>
+<div class="heading-wrapper" data-heading-level="h2"><a class="anchor-link docon docon-link" href="#other-generic-types" aria-label="Sekcja o tytule: Inne typy ogólne"></a><h2 id="other-generic-types" class="heading-anchor">Inne typy ogólne</h2></div>
+<p>Struktura <a href="/pl-pl/dotnet/api/system.nullable-1" class="no-loc" data-linktype="absolute-path">Nullable&lt;T&gt;</a> ogólna umożliwia używanie typów wartości tak, jakby mogły być przypisane <code>null</code>. Może to być przydatne podczas pracy z zapytaniami bazy danych, gdzie brakuje pól zawierających typy wartości. Parametr typu ogólnego może być dowolnym typem wartości.</p>
+<div class="alert is-info">
+<p class="alert-title"><span class="docon docon-status-error-outline" aria-hidden="true"></span> Uwaga</p>
+<p>W językach C# i Visual Basic nie jest konieczne jawne użycie <a href="/pl-pl/dotnet/api/system.nullable-1" class="no-loc" data-linktype="absolute-path">Nullable&lt;T&gt;</a> , ponieważ język ma składnię dla typów dopuszczanych do wartości null. Zobacz <a href="../../csharp/language-reference/builtin-types/nullable-value-types" data-linktype="relative-path">Typy wartości dopuszczanych do wartości null (odwołanie w C#)</a> i <a href="../../visual-basic/programming-guide/language-features/data-types/nullable-value-types" data-linktype="relative-path">Typy wartości dopuszczalnych wartości null (Visual Basic).</a></p>
+</div>
+<p>Struktura <a href="/pl-pl/dotnet/api/system.arraysegment-1" class="no-loc" data-linktype="absolute-path">ArraySegment&lt;T&gt;</a> ogólna umożliwia rozdzielenie zakresu elementów w jednowymiarowej, zerowej tablicy dowolnego typu. Parametr typu ogólnego jest typem elementów tablicy.</p>
+<p>Delegat <a href="/pl-pl/dotnet/api/system.eventhandler-1" class="no-loc" data-linktype="absolute-path">EventHandler&lt;TEventArgs&gt;</a> ogólny eliminuje konieczność deklarowania typu delegata do obsługi zdarzeń, jeśli zdarzenie jest zgodne ze wzorcem obsługi zdarzeń używanym przez platformę .NET. Załóżmy na przykład, że utworzono klasę pochodzącą <code>MyEventArgs</code> z <a href="/pl-pl/dotnet/api/system.eventargs" class="no-loc" data-linktype="absolute-path">EventArgs</a>klasy , aby przechowywać dane dla zdarzenia. Następnie można zadeklarować zdarzenie w następujący sposób:</p>
+<pre class="has-inner-focus" hidden=""><code class="lang-cpp" name="Conceptual.Generics.Overview#7">public:
+    event EventHandler&lt;MyEventArgs^&gt;^ MyEvent;
+</code></pre><div class="codeHeader" id="code-try-0" data-bi-name="code-header"><span class="language">C#</span>
+		<button type="button" class="action position-relative display-none-print" data-bi-name="copy">
+			<span class="icon margin-right-xxs" aria-hidden="true">
+				<span class="docon docon-edit-copy"></span>
+			</span>
+			<span>Kopiuj</span>
+			<div class="successful-copy-alert position-absolute right-0 top-0 left-0 bottom-0 display-flex align-items-center justify-content-center has-text-success-invert has-background-success is-transparent" aria-hidden="true">
+				<span class="icon font-size-lg">
+					<span class="docon docon-check-mark"></span>
+				</span>
+			</div>
+		</button>
+	</div><pre class="has-inner-focus"><code class="lang-csharp" name="Conceptual.Generics.Overview#7"><span><span class="hljs-keyword">public</span> <span class="hljs-keyword">event</span> EventHandler&lt;MyEventArgs&gt; MyEvent;
+</span></code></pre><pre class="has-inner-focus" hidden=""><code class="lang-vb" name="Conceptual.Generics.Overview#7">Public Event MyEvent As EventHandler(Of MyEventArgs)
+</code></pre><div class="heading-wrapper" data-heading-level="h2"><a class="anchor-link docon docon-link" href="#see-also" aria-label="Sekcja o tytule: Zobacz też"></a><h2 id="see-also" class="heading-anchor">Zobacz też</h2></div>
+<ul>
+<li><a href="/pl-pl/dotnet/api/system.collections.generic" class="no-loc" data-linktype="absolute-path">System.Collections.Generic</a></li>
+<li><a href="/pl-pl/dotnet/api/system.collections.objectmodel" class="no-loc" data-linktype="absolute-path">System.Collections.ObjectModel</a></li>
+<li><a href="./" data-linktype="relative-path">Typy ogólne</a></li>
+<li><a href="delegates-for-manipulating-arrays-and-lists" data-linktype="relative-path">Delegaci ogólni do manipulowania tablicami i listami</a></li>
+<li><a href="interfaces" data-linktype="relative-path">Interfejsy ogólne</a></li>
+</ul>
+</div>
